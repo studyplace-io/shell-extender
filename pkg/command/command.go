@@ -76,7 +76,6 @@ func ExecShellCommandWithTimeout(cmd string, timeout int64) (string, string, int
 	}
 }
 
-
 // ExecShellCommandWithChan 执行命令并使用管道输出
 // 输入：chan 输出：错误
 func ExecShellCommandWithChan(cmd string, queue chan string) error {

@@ -37,4 +37,3 @@ func (rw *OutputBuffer) Lines() []string {
 	rw.Unlock()
 	return rw.lines
 }
-

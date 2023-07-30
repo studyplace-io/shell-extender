@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/practice/shell_extender/pkg/command"
+	"github.com/practice/shell_extender/pkg/remote_command"
 )
 
 func main() {
@@ -41,4 +42,24 @@ func main() {
 		return
 	}
 	fmt.Println("===============================")
+
+	fmt.Println("==============BatchRunRemoteNodeFromConfig=================")
+	err = remote_command.BatchRunRemoteNodeFromConfig("./config.yaml", "kubectl get node")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("===============================")
+
+	fmt.Println("==============ExecShellCommand=================")
+	err = remote_command.BatchRunRemoteNodeFromConfigWithTimeout("./config.yaml", "kubectl get node", 10)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("===============================")
+
+
 }

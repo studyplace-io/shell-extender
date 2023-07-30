@@ -95,4 +95,3 @@ func (rw *OutputStream) SetLineBufferSize(n int) {
 	rw.bufSize = n
 	rw.buf = make([]byte, rw.bufSize)
 }
-

@@ -30,6 +30,4 @@ func TestCheckBuffer(t *testing.T) {
 	cmd.Run()
 
 	fmt.Println(stdout.buf.String())
-
-
 }
