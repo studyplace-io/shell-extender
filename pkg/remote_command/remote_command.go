@@ -36,7 +36,7 @@ func BatchRunRemoteNodeFromConfig(config string, cmd string) error {
 }
 
 var (
-	ErrTimeout = errors.New("exec command timeout")
+	ErrTimeout     = errors.New("exec command timeout")
 	ErrConfigParse = errors.New("config parse error")
 )
 
@@ -66,7 +66,6 @@ func BatchRunRemoteNodeFromConfigWithTimeout(config string, cmd string, timeout 
 	return nil
 
 }
-
 
 // sSHConnect 使用ssh登入
 func sSHConnect(user, password, host string, port int) (*ssh.Session, error) {
@@ -111,7 +110,6 @@ func sSHConnect(user, password, host string, port int) (*ssh.Session, error) {
 var batchWg sync.WaitGroup
 
 const defaultPort = "22"
-
 
 func runRemoteNodeFromConfig(user, password, host string, port int, cmd string) {
 	defer batchWg.Done()
