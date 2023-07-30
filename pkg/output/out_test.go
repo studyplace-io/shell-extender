@@ -21,9 +21,6 @@ func TestOut(t *testing.T) {
 	cmd.Stdout = stdout
 	cmd.Run()
 
-	select {
-
-	}
 }
 
 func TestCheckBuffer(t *testing.T) {
