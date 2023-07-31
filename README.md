@@ -5,7 +5,10 @@
 - ExecShellCommandWithResult 执行命令并输出所有结果
 - ExecShellCommandWithTimeout 执行命令并超时时间
 - ExecShellCommandWithChan 执行命令并使用管道输出
-2. 对批量远端节点执行shell命令
+2. 对远端节点执行shell命令
+- RunRemoteNode
+- RunRemoteNodeWithTimeout
+3. 对批量远端节点执行shell命令
 - BatchRunRemoteNodeFromConfig
 - BatchRunRemoteNodeFromConfigWithTimeout
 ```yaml

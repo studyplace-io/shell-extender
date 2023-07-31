@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"github.com/practice/shell_extender/pkg/waitgroup_timeout"
 	"golang.org/x/crypto/ssh"
-	"log"
 	"net"
 	"strconv"
 	"sync"
 	"time"
 )
 
-// BatchRunRemoteNodeFromConfig 远端执行
+// BatchRunRemoteNodeFromConfig 使用配置文件远端执行shell命令，不返回执行结果
 func BatchRunRemoteNodeFromConfig(config string, cmd string) error {
 
 	remoteNode, err := loadConfig(config)
@@ -40,7 +39,7 @@ var (
 	ErrConfigParse = errors.New("config parse error")
 )
 
-// BatchRunRemoteNodeFromConfigWithTimeout 远端执行shell命令并提供超时时间
+// BatchRunRemoteNodeFromConfigWithTimeout 使用配置文件远端执行shell命令并提供超时时间
 func BatchRunRemoteNodeFromConfigWithTimeout(config string, cmd string, timeout int64) error {
 
 	remoteNode, err := loadConfig(config)
@@ -65,6 +64,38 @@ func BatchRunRemoteNodeFromConfigWithTimeout(config string, cmd string, timeout 
 
 	return nil
 
+}
+
+// RunRemoteNode 远端执行shell命令并提供超时时间
+func RunRemoteNode(user, password, host string, port int, cmd string) error {
+	return runRemoteNode(user, password, host, port, cmd)
+}
+
+// RunRemoteNodeWithTimeout 远端执行shell命令
+func RunRemoteNodeWithTimeout(user, password, host string, port int, cmd string, timeout int64) error {
+	notifyC := make(chan struct{})
+	errC := make(chan error, 1)
+	var err error
+	execFunc := func() {
+		err = runRemoteNode(user, password, host, port, cmd)
+		if err != nil {
+			errC <-err
+		}
+		close(notifyC)
+	}
+	go execFunc()
+
+	// 超时执行返回
+	t := time.Duration(timeout) * time.Second
+	select {
+	case <-notifyC:
+		if err != nil {
+			return <-errC
+		}
+		return nil
+	case <-time.After(t):
+		return ErrTimeout
+	}
 }
 
 // sSHConnect 使用ssh登入
@@ -122,10 +153,10 @@ func runRemoteNodeFromConfigWithTimeout(user, password, host string, port int, c
 }
 
 // runRemoteNode 对远程节点执行命令
-func runRemoteNode(user, password, host string, port int, cmd string) {
+func runRemoteNode(user, password, host string, port int, cmd string) error {
 	session, err := sSHConnect(user, password, host, port)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	defer session.Close()
 
@@ -142,4 +173,6 @@ func runRemoteNode(user, password, host string, port int, cmd string) {
 	} else {
 		fmt.Println(string(stdOut.Bytes()))
 	}
+
+	return nil
 }

@@ -11,7 +11,6 @@ func main() {
 	out, i, err := command.ExecShellCommand("kubectl get node")
 	if err != nil {
 		fmt.Println(err)
-		return
 	}
 
 	fmt.Printf("i: %v, out: %s", i, out)
@@ -61,4 +60,17 @@ func main() {
 
 	fmt.Println("===============================")
 
+	fmt.Println("==============RunRemoteNode=================")
+	err = remote_command.RunRemoteNode("root", "", "", 0, "kubectl get pods")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("===============================")
+
+	fmt.Println("==============RunRemoteNodeWithTimeout=================")
+	err = remote_command.RunRemoteNodeWithTimeout("root", "", "", 0, "sleep 3; kubectl get pods", 2)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("===============================")
 }
