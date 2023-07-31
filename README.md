@@ -11,6 +11,8 @@
 3. 对批量远端节点执行shell命令
 - BatchRunRemoteNodeFromConfig
 - BatchRunRemoteNodeFromConfigWithTimeout
+4. 支持命令行执行远程运维动作
+- 可以将项目二进制编译更方便使用
 ```yaml
 remoteNodes:
   - host: 127.0.0.1 
@@ -81,4 +83,35 @@ func main() {
     fmt.Println("===============================")
     
 }
+```
+
+### 示例2
+**使用方法**
+```bash
+➜  shell_extender git:(main) ✗ go run main.go remoteExec --user=root --password=<password> --host=<host> --port=22 --script=./script.sh
+host ip exec result:  1.14.120.233
+NAME                                  READY   STATUS    RESTARTS   AGE
+ddd-55c668c8ff-v45lw                  1/1     Running   0          197d
+example-deployment-658789c5cd-l4kwp   1/1     Running   0          56d
+example-deployment-658789c5cd-qkn8d   1/1     Running   1          104d
+example-pod                           1/1     Running   3          104d
+jiangjiang-76fb44d88-pdzqv            1/1     Running   1          261d
+k8splay1-59c7f5b4cb-mbw5v             2/2     Running   6          263d
+k8splay1-59c7f5b4cb-x964b             2/2     Running   6          263d
+kkkk-58cb7984db-mmffd                 1/1     Running   1          197d
+my-deployment-5966cb4d75-cgm8f        1/1     Running   0          56d
+my-deployment-5966cb4d75-df58x        1/1     Running   1          113d
+my-deployment-5966cb4d75-gcg5w        1/1     Running   1          113d
+myapp-rs-ftv7x                        1/1     Running   0          56d
+myapp-rs-kr487                        1/1     Running   1          289d
+mycrd-controller-78b98dcd7-hls78      1/1     Running   1          199d
+mycrd-controller-78b98dcd7-n7ctv      1/1     Running   1          197d
+mycsi-nginx-64c7d9cb77-mj7q7          1/1     Running   0          61d
+mypod                                 1/1     Running   0          113d
+myredis-0                             1/1     Running   0          56d
+myredis-1                             1/1     Running   2          233d
+nfscsi-nginx-768ff5bf55-jjfwx         1/1     Running   0          56d
+ss-web-0                              1/1     Running   0          56d
+ss-web-1                              1/1     Running   1          289d
+
 ```
