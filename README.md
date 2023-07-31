@@ -89,7 +89,7 @@ func main() {
 **使用方法**
 ```bash
 ➜  shell_extender git:(main) ✗ go run main.go remoteExec --user=root --password=<password> --host=<host> --port=22 --script=./script.sh
-host ip exec result:  1.14.120.233
+host ip exec result:  xxxxxx
 NAME                                  READY   STATUS    RESTARTS   AGE
 ddd-55c668c8ff-v45lw                  1/1     Running   0          197d
 example-deployment-658789c5cd-l4kwp   1/1     Running   0          56d
