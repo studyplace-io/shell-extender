@@ -79,7 +79,7 @@ func RunRemoteNodeWithTimeout(user, password, host string, port int, cmd string,
 	execFunc := func() {
 		err = runRemoteNode(user, password, host, port, cmd)
 		if err != nil {
-			errC <-err
+			errC <- err
 		}
 		close(notifyC)
 	}

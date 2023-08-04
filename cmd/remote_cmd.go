@@ -14,10 +14,10 @@ func remoteExecShellCmd() *cobra.Command {
 		Long:  "exec shell script for remote server",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg := &config{
-				host: host,
-				user: user,
+				host:     host,
+				user:     user,
 				password: password,
-				port: port,
+				port:     port,
 			}
 			err := remote_command.RunRemoteNode(cfg.user, cfg.password, cfg.host, cfg.port, readFile(script))
 			return err

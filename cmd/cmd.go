@@ -26,7 +26,7 @@ func init() {
 	runCmd.PersistentFlags().StringVarP(&password, "password", "p", "", "remote user password")
 	runCmd.PersistentFlags().IntVarP(&port, "port", "P", 22, "remote user password")
 	runCmd.PersistentFlags().StringVarP(&script, "script", "s", "", "bash shell script")
-	runCmd.AddCommand(remoteExecShellCmd())
+	runCmd.AddCommand(remoteExecShellCmd(), remoteExecPingCmd())
 }
 
 func Execute() {
