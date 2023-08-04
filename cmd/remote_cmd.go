@@ -26,6 +26,24 @@ func remoteExecShellCmd() *cobra.Command {
 	return cmd
 }
 
+func remoteCommandLineCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "remoteCommandLine",
+		Short: "exec command line for remote server",
+		Long:  "exec command line for remote server",
+		Run: func(cmd *cobra.Command, args []string) {
+			cfg := &config{
+				host:     host,
+				user:     user,
+				password: password,
+				port:     port,
+			}
+			remote_command.RunRemoteCommandLine(cfg.host, cfg.port, cfg.user, cfg.password)
+		},
+	}
+	return cmd
+}
+
 func readFile(path string) string {
 	// 读取文件内容
 	data, err := ioutil.ReadFile(path)

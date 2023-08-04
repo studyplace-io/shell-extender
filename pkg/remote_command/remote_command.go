@@ -7,6 +7,7 @@ import (
 	"github.com/practice/shell_extender/pkg/waitgroup_timeout"
 	"golang.org/x/crypto/ssh"
 	"net"
+	"os"
 	"strconv"
 	"sync"
 	"time"
@@ -175,4 +176,43 @@ func runRemoteNode(user, password, host string, port int, cmd string) error {
 	}
 
 	return nil
+}
+
+// RunRemoteCommandLine 登入远程节点命令行
+func RunRemoteCommandLine(ip string, port int, user, password string) {
+	addr := fmt.Sprintf("%s:%s", ip, strconv.Itoa(port))
+	// 建立SSH客户端连接
+	client, err := ssh.Dial("tcp", addr, &ssh.ClientConfig{
+		User:            user,
+		Auth:            []ssh.AuthMethod{ssh.Password(password)},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	})
+	if err != nil {
+		fmt.Printf("SSH dial error: %s", err.Error())
+	}
+
+	// 建立新会话
+	session, err := client.NewSession()
+	defer session.Close()
+	if err != nil {
+		fmt.Printf("new session error: %s", err.Error())
+	}
+
+	session.Stdout = os.Stdout // 会话输出关联到系统标准输出设备
+	session.Stderr = os.Stderr // 会话错误输出关联到系统标准错误输出设备
+	session.Stdin = os.Stdin   // 会话输入关联到系统标准输入设备
+	modes := ssh.TerminalModes{
+		ssh.ECHO:          0,     // 禁用回显（0禁用，1启动）
+		ssh.TTY_OP_ISPEED: 14400, // input speed = 14.4kbaud
+		ssh.TTY_OP_OSPEED: 14400, //output speed = 14.4kbaud
+	}
+	if err = session.RequestPty("linux", 32, 160, modes); err != nil {
+		fmt.Printf("request pty error: %s", err.Error())
+	}
+	if err = session.Shell(); err != nil {
+		fmt.Printf("start shell error: %s", err.Error())
+	}
+	if err = session.Wait(); err != nil {
+		fmt.Printf("return error: %s", err.Error())
+	}
 }

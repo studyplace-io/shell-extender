@@ -13,6 +13,7 @@
 - BatchRunRemoteNodeFromConfigWithTimeout
 4. 支持命令行执行远程运维动作
 - 可以将项目二进制编译更方便使用
+5. 支持命令行登入远程节点
 ```yaml
 remoteNodes:
   - host: 127.0.0.1 
@@ -114,4 +115,9 @@ nfscsi-nginx-768ff5bf55-jjfwx         1/1     Running   0          56d
 ss-web-0                              1/1     Running   0          56d
 ss-web-1                              1/1     Running   1          289d
 
+➜  shell_extender git:(main) ✗ go run main.go remoteCommandLine --user=root --password=<password> --host=<host> --port=22
+Last failed login: Fri Aug  4 21:59:12 CST 2023 from  on ssh:notty
+There were 11 failed login attempts since the last successful login.
+Last login: Fri Aug  4 21:57:08 2023 from 101.207.203.124
+[root@VM-0-16-centos ~]# 
 ```
