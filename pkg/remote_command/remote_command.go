@@ -189,15 +189,16 @@ func RunRemoteCommandLine(ip string, port int, user, password string) {
 	})
 	if err != nil {
 		fmt.Printf("SSH dial error: %s", err.Error())
+		return
 	}
 
 	// 建立新会话
 	session, err := client.NewSession()
-	defer session.Close()
 	if err != nil {
 		fmt.Printf("new session error: %s", err.Error())
+		return
 	}
-
+	defer session.Close()
 	session.Stdout = os.Stdout // 会话输出关联到系统标准输出设备
 	session.Stderr = os.Stderr // 会话错误输出关联到系统标准错误输出设备
 	session.Stdin = os.Stdin   // 会话输入关联到系统标准输入设备
