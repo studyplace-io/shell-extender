@@ -19,7 +19,9 @@ var (
 )
 
 type ExecPodContainerCmd struct {
+	// kubeConfig kubeconfig目录地址，默认集群内.kube/config
 	kubeConfig    string
+	// insecure 是否跳过tls鉴权
 	insecure      bool
 	podName       string
 	containerName string

@@ -14,6 +14,7 @@
 4. 支持命令行执行远程运维动作
 - 可以将项目二进制编译更方便使用
 5. 支持命令行登入远程节点
+6. 支持对集群中特定pod的特定container执行命令
 ```yaml
 remoteNodes:
   - host: 127.0.0.1 
@@ -82,6 +83,15 @@ func main() {
     }
     
     fmt.Println("===============================")
+    
+    
+    cmd := NewExecPodContainerCmd("./config1", "myinspect-controller-69748dc6bf-84wdp",
+                    "myinspect-controller", "default", true)
+    err := cmd.Run([]string{"sh", "-c", "ls -a"})
+    if err != nil {
+        fmt.Println("aaaa: ", err)
+        return
+    }
     
 }
 ```

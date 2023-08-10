@@ -8,7 +8,7 @@ import (
 // WaitGroupWithTimeout 增加超时功能的WaitGroup
 type WaitGroupWithTimeout struct {
 	sync.WaitGroup
-	Timeout time.Duration // 超时时间
+	timeout time.Duration // 超时时间
 }
 
 func NewWaitGroupWithTimeout(timeout time.Duration) *WaitGroupWithTimeout {
@@ -24,7 +24,7 @@ func (wg *WaitGroupWithTimeout) WaitTimeout() bool {
 
 	ch := make(chan bool, 1)
 
-	go time.AfterFunc(wg.Timeout, func() {
+	go time.AfterFunc(wg.timeout, func() {
 		ch <- true
 	})
 
