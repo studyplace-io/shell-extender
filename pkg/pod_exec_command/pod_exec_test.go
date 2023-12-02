@@ -1,15 +1,16 @@
 package pod_exec_command
 
 import (
+	"log"
 	"testing"
 )
 
 func TestHandleCommand(t *testing.T) {
 
-	cmd := NewExecPodContainerCmd("./config", "myinspect-controller-69748dc6bf-84wdp",
-		"myinspect-controller", "default", true)
+	cmd := NewExecPodContainerCmd("./config1", "test-pod",
+		"my-container", "default", true)
 	err := cmd.Run([]string{"sh", "-c", "ls -a"})
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 }

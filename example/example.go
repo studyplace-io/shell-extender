@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/practice/shell_extender/pkg/command"
+	"github.com/practice/shell_extender/pkg/pod_exec_command"
 	"github.com/practice/shell_extender/pkg/remote_command"
+	"log"
 )
 
 func main() {
@@ -71,6 +73,15 @@ func main() {
 	err = remote_command.RunRemoteNodeWithTimeout("root", "", "", 0, "sleep 3; kubectl get pods", 2)
 	if err != nil {
 		fmt.Println(err)
+	}
+	fmt.Println("===============================")
+
+	fmt.Println("==============ExecPodContainerCmd=================")
+	cmd := pod_exec_command.NewExecPodContainerCmd("./pkg/pod_exec_command/config1", "test-pod",
+		"my-container", "default", true)
+	err = cmd.Run([]string{"sh", "-c", "ls -a"})
+	if err != nil {
+		log.Fatal(err)
 	}
 	fmt.Println("===============================")
 }
